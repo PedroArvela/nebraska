@@ -23,7 +23,7 @@ public class App {
 		} else {
 			System.err.println("File must be a .class and exist");
 			try {
-				System.err.println("File passed was" + f.getCanonicalPath());
+				System.err.println("File passed was " + f.getCanonicalPath());
 			} catch (IOException e) {
 				// Ignore
 			}
