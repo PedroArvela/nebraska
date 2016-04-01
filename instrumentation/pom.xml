@@ -38,6 +38,9 @@
 				</executions>
 				<configuration>
 					<mainClass>pt.tecnico.cnv.instrumentation.App</mainClass>
+					<arguments>
+						<argument>../webserver/target/classes/pt/tecnico/cnv/webserver/IntFactorization.class</argument>
+					</arguments>
 				</configuration>
 			</plugin>
 		</plugins>
