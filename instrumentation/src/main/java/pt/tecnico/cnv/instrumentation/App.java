@@ -1,14 +1,17 @@
 package pt.tecnico.cnv.instrumentation;
 
-import BIT.highBIT.*;
-import BIT.lowBIT.*;
+import BIT.highBIT.ClassInfo;
 
-/**
- * Hello world!
- *
- */
 public class App {
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
+		String filename = args[0];
+
+		if (filename.endsWith(".class")) {
+			// Read the class data into an object
+			ClassInfo ci = new ClassInfo(filename);
+
+			// Write the new object back into the same file
+			ci.write(filename);
+		}
 	}
 }
