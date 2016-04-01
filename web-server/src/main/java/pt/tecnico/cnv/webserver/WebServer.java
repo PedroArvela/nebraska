@@ -5,10 +5,12 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+
+import pt.tecnico.cnv.instrumentation.InstrumentationData;
 
 @SuppressWarnings("restriction")
 public class WebServer {
@@ -25,7 +27,9 @@ public class WebServer {
             IntFactorization i = new IntFactorization();
             String query = t.getRequestURI().getQuery();
             String[] parts = query.split("=");
-            String response = "Response: " +i.calcPrimeFactors(new BigInteger(parts[1]));
+            String response = "Response: " +i.primeFactors(new BigInteger(parts[1]));
+            InstrumentationData data = InstrumentationData.getInstance(Thread.currentThread().getId());
+            System.err.println(data.i_count + " instructions in " + data.b_count + " basic blocks were executed.");
 
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();

@@ -8,7 +8,6 @@ import BIT.highBIT.ClassInfo;
 import BIT.highBIT.Routine;
 
 public class App {
-	private static int i_count = 0, b_count = 0;
 
 	public static void dummy() {
 		return;
@@ -30,13 +29,15 @@ public class App {
 			for (Object i : ci.getRoutines()) {
 				Routine rout = (Routine) i;
 
+				if (rout.getMethodName().equals("primeFactors")) {
+					rout.addBefore("pt/tecnico/cnv/instrumentation/App", "initData", ci.getClassName());
+				}
+
 				// Loop through all the basic blocks in the class
 				for (Object j : rout.getBasicBlocks().getBasicBlocks()) {
 					BasicBlock bb = (BasicBlock) j;
 					bb.addBefore("pt/tecnico/cnv/instrumentation/App", "count", new Integer(bb.size()));
 				}
-
-				rout.addAfter("pt/tecnico/cnv/instrumentation/App", "printICount", ci.getClassName());
 			}
 
 			// Write the new object back into the same file
@@ -52,12 +53,13 @@ public class App {
 	}
 
 	// Actual instrumentation data
-	public static synchronized void printICount(String foo) {
-		System.out.println(i_count + " instructions in " + b_count + " basic blocks were executed.");
+	public static synchronized void initData(String foo) {
+		InstrumentationData.clearInstance(Thread.currentThread().getId());
 	}
 
 	public static synchronized void count(int incr) {
-		i_count += incr;
-		b_count++;
+		InstrumentationData data = InstrumentationData.getInstance(Thread.currentThread().getId());
+		data.i_count += incr;
+		data.b_count++;
 	}
 }
