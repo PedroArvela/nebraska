@@ -8,17 +8,17 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+@SuppressWarnings("restriction")
 public class WebServer {
 
     public static void main(String[] args) throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
-        server.createContext("/test", new MyHandler());
+        server.createContext("/f.html", new MyHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
     }
 
     static class MyHandler implements HttpHandler {
-        @Override
         public void handle(HttpExchange t) throws IOException {
             String response = "This was the query:" + t.getRequestURI().getQuery() 
                                + "##";
