@@ -2,31 +2,32 @@ package pt.tecnico.cnv.webserver;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.io.IOException;
+
+import pt.tecnico.cnv.instrumentation.App;
 
 public class IntFactorization {
 
-  private BigInteger zero = new BigInteger("0");
-  private BigInteger one = new BigInteger("1");
-  private BigInteger divisor = new BigInteger("2");
-  private ArrayList<BigInteger> factors = new ArrayList<BigInteger>();
+	private BigInteger zero = new BigInteger("0");
+	private BigInteger one = new BigInteger("1");
+	private BigInteger divisor = new BigInteger("2");
+	private ArrayList<BigInteger> factors = new ArrayList<BigInteger>();
 
-  ArrayList<BigInteger>  calcPrimeFactors(BigInteger num) {
+	ArrayList<BigInteger> calcPrimeFactors(BigInteger num) {
+		App.dummy();
 
-    if (num.compareTo(one)==0) {
-      return factors;
-    }
+		if (num.compareTo(one) == 0) {
+			return factors;
+		}
 
-    while(num.remainder(divisor).compareTo(zero)!=0) {
-      divisor = divisor.add(one);
-    }
+		while (num.remainder(divisor).compareTo(zero) != 0) {
+			divisor = divisor.add(one);
+		}
 
-    factors.add(divisor);
-    return calcPrimeFactors(num.divide(divisor));
-  }
+		factors.add(divisor);
+		return calcPrimeFactors(num.divide(divisor));
+	}
 
-
-  /*
+	  /*
     public static void main(String[] args) {
     IntFactorization obj = new IntFactorization();
     int i = 0;
