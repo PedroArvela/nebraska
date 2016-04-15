@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>pt.tecnico.cnv</groupId>
+	<artifactId>cnv</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>cnv</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<modules>
+		<module>instrumentation</module>
+		<module>web-server</module>
+		<module>load-balancer</module>
+	</modules>
+
+	<repositories>
+		<repository>
+			<id>Local AFS</id>
+			<url>https://web.tecnico.ulisboa.pt/~jose.pedro.arvela/maven</url>
+		</repository>
+	</repositories>
+</project>

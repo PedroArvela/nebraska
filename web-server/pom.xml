@@ -1,10 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pt.tecnico.cnv.webserver</groupId>
+
+	<parent>
+		<artifactId>cnv</artifactId>
+		<groupId>pt.tecnico.cnv</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>pt.tecnico.cnv</groupId>
 	<artifactId>webserver</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+
 	<name>webserver</name>
 	<url>http://maven.apache.org</url>
 	<build>
@@ -39,7 +46,7 @@
 		<dependency>
 			<groupId>pt.tecnico.cnv</groupId>
 			<artifactId>instrumentation</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.mojo</groupId>

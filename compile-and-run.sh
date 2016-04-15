@@ -1,23 +1,13 @@
 #!/bin/bash
 
-echo "BIT needed for instrumentation"
-git clone https://web.tecnico.ulisboa.pt/~jose.pedro.arvela/git/BIT
-cd BIT
-mvn compile install
+echo "Compile the entire project"
+mvn -q compile
 
-echo "Will compile and install instrumentation"
-cd ../instrumentation
-mvn compile
-mvn install
+echo "Install instrumentation class to repository"
+mvn -q -pl instrumentation install
 
-echo "Will compile and install web server"
-cd ../web-server
-mvn compile
-
-echo "Will replace IntFactorization class for another that is instrumented"
-cd ../instrumentation
-mvn exec:java
+echo "Replace IntFactorization class for another that is instrumented"
+mvn -q -pl instrumentation exec:java -Dexec.args=./web-server/target/classes/pt/tecnico/cnv/webserver/IntFactorization.class
 
 echo "Running project"
-cd ../web-server
-mvn exec:java
+mvn -q -pl web-server exec:java
