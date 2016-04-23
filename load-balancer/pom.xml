@@ -65,7 +65,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>pt.tecnico.cnv.loadbalancer.App</mainClass>
+					<mainClass>pt.tecnico.cnv.loadbalancer.Server</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
