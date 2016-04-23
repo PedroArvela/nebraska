@@ -21,7 +21,12 @@ public class Server {
 
 			while (true) {
 				try (Socket socket = server.accept()) {
-					threadPool.execute(() -> Proxy.process(socket));
+					threadPool.execute(new Runnable() {
+						@Override
+						public void run() {
+							Proxy.process(socket);
+						}
+					});
 				}
 			}
 		}
