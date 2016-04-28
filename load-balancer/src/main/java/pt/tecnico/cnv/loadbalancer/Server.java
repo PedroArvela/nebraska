@@ -31,7 +31,7 @@ public class Server {
 					public void run() {
 						try {
 							Proxy.process(socket);
-						} catch (IOException e) {
+						} catch (Exception e) {
 							throw new RuntimeException(e);
 						}
 					}

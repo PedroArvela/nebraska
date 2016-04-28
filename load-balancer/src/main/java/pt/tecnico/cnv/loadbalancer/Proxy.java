@@ -6,28 +6,74 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 import java.net.Socket;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.amazonaws.transform.MapEntry;
+
 public class Proxy {
 
-	public static void process(Socket s) throws IOException {
+	public static void process(Socket s) throws IOException, NoMachineException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(s.getOutputStream())));
 
+		// Parse client request
 		String request = in.readLine();
 		String[] requestParams = request.split(" ");
 		String path = requestParams[1];
 
-		out.print("HTTP/1.1 200 \r\n");
-		out.print("Content-Type: text/plain\r\n");
-		out.print("Connection: close\r\n");
-		out.print("\r\n");
+		Pair<String, Integer> target = new DumbDecider().decide();
 
-		out.println(path);
+		// Connect to the proxy target
+		URL url = new URL("http", target.getLeft(), target.getRight(), path);
+		URLConnection conn = url.openConnection();
+		conn.setDoInput(true);
+		conn.setDoOutput(false);
+		HttpURLConnection huc = (HttpURLConnection) conn;
+
+		if (conn.getContentLengthLong() < 0) {
+			throw new IOException();
+		}
+
+		int response = huc.getResponseCode();
+		BufferedReader rd;
+
+		if (response == 200) {
+			rd = new BufferedReader(new InputStreamReader(huc.getInputStream()));
+		} else {
+			rd = new BufferedReader(new InputStreamReader(huc.getErrorStream()));
+		}
+
+		Map<String, List<String>> responseHeaders = huc.getHeaderFields();
+		for (Map.Entry<String, List<String>> headerField : responseHeaders.entrySet()) {
+			String outputLine = "";
+
+			if (headerField.getKey() != null) {
+				outputLine = headerField.getKey() + ":";
+			}
+
+			for (String fieldValue : headerField.getValue()) {
+				outputLine += " " + fieldValue;
+			}
+			outputLine += "\r\n";
+			out.write(outputLine);
+		}
+		out.write("\r\n");
+
+		// Read the rest of the client input and send it to the target
+		String outputLine = rd.readLine();
+		while (outputLine != null) {
+			out.write(outputLine + "\r\n");
+			outputLine = rd.readLine();
+		}
 
 		out.close();
 		in.close();
