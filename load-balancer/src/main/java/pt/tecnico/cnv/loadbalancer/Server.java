@@ -9,10 +9,12 @@ import java.util.concurrent.Executors;
 public class Server {
 	private int port;
 	ExecutorService threadPool;
+	Scheduler scheduler;
 
-	public Server(int port) {
+	public Server(int port, Scheduler scheduler) {
 		this.port = port;
-		threadPool = Executors.newCachedThreadPool();
+		this.threadPool = Executors.newCachedThreadPool();
+		this.scheduler = scheduler;
 	}
 
 	public void serve() throws IOException {
@@ -25,7 +27,7 @@ public class Server {
 					@Override
 					public void run() {
 						try {
-							Proxy.process(socket);
+							Proxy.process(socket, scheduler);
 						} catch (Exception e) {
 							throw new RuntimeException(e);
 						}

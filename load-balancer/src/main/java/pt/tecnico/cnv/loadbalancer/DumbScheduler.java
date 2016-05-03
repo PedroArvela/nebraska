@@ -3,9 +3,9 @@ package pt.tecnico.cnv.loadbalancer;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class DumbDecider implements Decider {
+public class DumbScheduler implements Scheduler {
 
-	public Pair<String, Integer> decide() throws NoMachineException {
+	public Pair<String, Integer> getInstance() throws NoMachineException {
 		return new ImmutablePair<String, Integer>("localhost", 8000);
 	}
 }
