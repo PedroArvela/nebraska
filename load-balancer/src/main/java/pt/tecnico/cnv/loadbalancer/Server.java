@@ -15,11 +15,6 @@ public class Server {
 		threadPool = Executors.newCachedThreadPool();
 	}
 
-	public static void main(String[] args) throws IOException {
-		Server s = new Server(8888);
-		s.serve();
-	}
-
 	public void serve() throws IOException {
 		try (ServerSocket server = new ServerSocket(port)) {
 			System.out.println("Listening on port " + port + "...");

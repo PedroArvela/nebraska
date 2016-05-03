@@ -8,10 +8,10 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>loadbalancer</artifactId>
+	<artifactId>metricstorage</artifactId>
 	<packaging>jar</packaging>
 
-	<name>loadbalancer</name>
+	<name>metricstorage</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencyManagement>
@@ -50,24 +50,6 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.4.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<mainClass>pt.tecnico.cnv.loadbalancer.App</mainClass>
-					<arguments>
-						<argument>8888</argument>
-					</arguments>
 				</configuration>
 			</plugin>
 		</plugins>

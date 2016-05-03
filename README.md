@@ -24,6 +24,6 @@ mvn -pl web-server exec:java
 ## Correr o load balancer
 
 ```bash
-mvn -pl load-balancer exec:java
+mvn -pl load-balancer exec:java [ -Dexec.args=PORT ]
 ```
 
