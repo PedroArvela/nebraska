@@ -49,6 +49,11 @@ public class NebraskaEC2Client {
 		amz.ec2 = new AmazonEC2Client(credentials);
 		amz.cloudWatch = new AmazonCloudWatchClient(credentials);
 
+		 // The complete list is at
+		 // https://docs.aws.amazon.com/general/latest/gr/rande.html
+		amz.ec2.setEndpoint("ec2." + endpoint);
+		amz.cloudWatch.setEndpoint("monitoring." + endpoint);
+
 		return amz;
 	}
 
@@ -67,7 +72,7 @@ public class NebraskaEC2Client {
 
 	/**
 	 * Returns the list of Instances launched by a reservation.
-	 * */
+	 */
 	public Set<Instance> getInstances(Reservation reservation) {
 		Set<Instance> instances = new HashSet<Instance>();
 		instances.addAll(reservation.getInstances());
@@ -77,7 +82,7 @@ public class NebraskaEC2Client {
 
 	/**
 	 * Returns the list of all Instances.
-	 * */
+	 */
 	public Set<Instance> getInstances() {
 		Set<Instance> instances = new HashSet<Instance>();
 		List<Reservation> reservations = getReservations();
