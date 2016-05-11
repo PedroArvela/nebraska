@@ -1,5 +1,6 @@
 package pt.tecnico.cnv.loadbalancer;
 
+import pt.tecnico.cnv.metricstorage.MetricStorageApp;
 import pt.tecnico.cnv.metricstorage.NebraskaEC2Client;
 
 public class App {
@@ -22,7 +23,7 @@ public class App {
 		if (args.length > 1) {
 			port = Integer.parseInt(args[1]);
 		}
-
+		MetricStorageApp.getInstance().start();
 		Server s = new Server(port, scheduler);
 		s.serve();
 	}
