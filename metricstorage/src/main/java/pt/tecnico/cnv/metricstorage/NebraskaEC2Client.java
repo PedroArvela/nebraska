@@ -20,7 +20,7 @@ import com.amazonaws.services.ec2.model.Reservation;
 
 public class NebraskaEC2Client {
 	private AmazonEC2 ec2;
-	private AmazonCloudWatchClient cloudWatch;
+	public AmazonCloudWatchClient cloudWatch;
 	private String imageId;
 
 	private NebraskaEC2Client(String imageId) {
