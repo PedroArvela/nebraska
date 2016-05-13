@@ -1,4 +1,5 @@
 #!/bin/bash
+export _JAVA_OPTIONS="-XX:-UseSplitVerifier"
 
 echo "Compile the entire project"
 mvn -q compile
@@ -11,6 +12,3 @@ mvn -q -pl instrumentation exec:java -Dexec.args=./web-server/target/classes/pt/
 
 echo "Install the remaining projects"
 mvn -q install
-
-echo "Running project"
-mvn -q -pl web-server exec:java
