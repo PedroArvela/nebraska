@@ -34,8 +34,8 @@ public class NotificationListener implements Runnable {
 		Map<String, String> headers = new TreeMap<String, String>();
 		
 		while(headerLine != null && !headerLine.equals("\r\n")) {
-			String[] headerPair = headerLine.split("\\s*:\\s*", 2);
-			headers.put(headerPair[0], headerPair[1]);			
+			String[] headerPair = headerLine.split(": ", 2);
+			headers.put(headerPair[0], headerPair[1]);
 			
 			headerLine = in.readLine();
 		}
