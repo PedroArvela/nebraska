@@ -17,14 +17,16 @@ public class RoundRobinScheduler implements Scheduler {
 	Set<Instance> insts;
 	Iterator<Instance> instanceIt;
 
-	TimerTask task = new TimerTask() {
-		@Override
-		public void run() {
-			sendNotification();
-			Timer timer = new Timer();
-			timer.schedule(this, 15000);
-		}
-	};
+	private TimerTask getTimerTask() {
+		return new TimerTask() {
+			@Override
+			public void run() {
+				sendNotification();
+				Timer timer = new Timer();
+				timer.schedule(getTimerTask(), 15000);
+			}
+		};
+	}
 
 	public RoundRobinScheduler(NebraskaEC2Client nec2) {
 		this.nec2 = nec2;
@@ -32,7 +34,7 @@ public class RoundRobinScheduler implements Scheduler {
 
 		NotificationListener notifications = new NotificationListener(8080, this);
 		new Thread(notifications).start();
-		new Thread(task).start();
+		new Thread(getTimerTask()).start();
 	}
 
 	@Override
