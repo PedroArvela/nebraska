@@ -1,7 +1,7 @@
 package pt.tecnico.cnv.loadbalancer;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -22,8 +22,7 @@ import pt.tecnico.cnv.metricstorage.NebraskaEC2Client;
 public class LoadScheduler implements Scheduler {
 	NebraskaEC2Client nec2;
 	Set<Instance> insts;
-	Set<LocalInstance> linsts;
-	Iterator<LocalInstance> instanceIt;
+	List<LocalInstance> linsts;
 
 	private TimerTask getTimerTask() {
 		return new TimerTask() {
@@ -48,7 +47,7 @@ public class LoadScheduler implements Scheduler {
 	}
 
 	private void gatherStatistics() {
-		Set<LocalInstance> linsts = new HashSet<LocalInstance>();
+		List<LocalInstance> linsts = new ArrayList<LocalInstance>();
 
 		Dimension instanceDimension = new Dimension();
 		instanceDimension.setName("InstanceId");
@@ -90,11 +89,14 @@ public class LoadScheduler implements Scheduler {
 			throw new NoMachineException();
 		}
 
-		if (instanceIt == null || !instanceIt.hasNext()) {
-			instanceIt = linsts.iterator();
+		LocalInstance in = linsts.get(0);
+		for (int i = 0; i < linsts.size(); i++) {
+			LocalInstance it = linsts.get(i);
+			if (in.averageCPU < it.averageCPU) {
+				in = it;
+			}
 		}
 
-		LocalInstance in = instanceIt.next();
 		System.out.println("Instance: " + in.dns + ":" + 8000);
 		return new ImmutablePair<String, Integer>(in.dns, 8000);
 	}
