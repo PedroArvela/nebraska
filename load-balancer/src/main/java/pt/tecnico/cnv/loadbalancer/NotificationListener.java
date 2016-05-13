@@ -32,15 +32,18 @@ public class NotificationListener implements Runnable {
 		String request = in.readLine();
 		String headerLine = in.readLine();
 		Map<String, String> headers = new TreeMap<String, String>();
-		
-		while(headerLine != null && !headerLine.equals("\r\n")) {
-			String[] headerPair = headerLine.split(": ", 2);
-			headers.put(headerPair[0], headerPair[1]);
-			
+
+		while (headerLine != null && !headerLine.equals("\r\n")) {
+			String[] headerPair = headerLine.split(": ");
+			if (headerPair.length == 2) {
+				headers.put(headerPair[0], headerPair[1]);
+			}
+
 			headerLine = in.readLine();
 		}
-		
-		if(headers.containsKey("x-amz-sns-message-type") && headers.get("x-amz-sns-message-type").equals("Notification")) {
+
+		if (headers.containsKey("x-amz-sns-message-type")
+				&& headers.get("x-amz-sns-message-type").equals("Notification")) {
 			sched.sendNotification();
 		}
 
