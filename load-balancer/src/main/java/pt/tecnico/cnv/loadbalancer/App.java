@@ -1,5 +1,7 @@
 package pt.tecnico.cnv.loadbalancer;
 
+import com.amazonaws.regions.Regions;
+
 import pt.tecnico.cnv.metricstorage.MetricStorageApp;
 import pt.tecnico.cnv.metricstorage.NebraskaEC2Client;
 
@@ -14,7 +16,7 @@ public class App {
 		}
 
 		if (args[0].equals("RoundRobin")) {
-			NebraskaEC2Client nec2 = NebraskaEC2Client.init("us-west-2.amazonaws.com");
+			NebraskaEC2Client nec2 = NebraskaEC2Client.init(Regions.US_WEST_2, "ami-56a45136");
 			scheduler = new RoundRobinScheduler(nec2);
 		} else {
 			scheduler = new DumbScheduler();

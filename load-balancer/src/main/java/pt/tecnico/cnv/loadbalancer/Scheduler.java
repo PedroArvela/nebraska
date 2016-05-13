@@ -11,4 +11,8 @@ public interface Scheduler {
 	 */
 	Pair<String, Integer> getInstance() throws NoMachineException;
 
+	/**
+	 * Informs the scheduler that the instance list needs to be updated
+	 */
+	void sendNotification();
 }

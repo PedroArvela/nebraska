@@ -7,28 +7,32 @@ import java.util.Set;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cloudwatch.AmazonCloudWatchClient;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.AmazonEC2Client;
+import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.ec2.model.Filter;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.Reservation;
 
 public class NebraskaEC2Client {
 	private AmazonEC2 ec2;
 	private AmazonCloudWatchClient cloudWatch;
-	private String endpoint;
+	private String imageId;
 
-	private NebraskaEC2Client(String endpoint) {
-		this.endpoint = endpoint;
+	private NebraskaEC2Client(String imageId) {
+		this.imageId = imageId;
 	}
 
 	/**
 	 * Returns a new AmazonEC2Client
 	 * 
 	 */
-	public static NebraskaEC2Client init(String endpoint) throws AmazonClientException {
-		NebraskaEC2Client amz = new NebraskaEC2Client(endpoint);
+	public static NebraskaEC2Client init(Regions region, String imageId) throws AmazonClientException {
+		NebraskaEC2Client amz = new NebraskaEC2Client(imageId);
 
 		AWSCredentials credentials = null;
 
@@ -49,10 +53,8 @@ public class NebraskaEC2Client {
 		amz.ec2 = new AmazonEC2Client(credentials);
 		amz.cloudWatch = new AmazonCloudWatchClient(credentials);
 
-		 // The complete list is at
-		 // https://docs.aws.amazon.com/general/latest/gr/rande.html
-		amz.ec2.setEndpoint("ec2." + endpoint);
-		amz.cloudWatch.setEndpoint("monitoring." + endpoint);
+		amz.ec2.setRegion(Region.getRegion(region));
+		amz.cloudWatch.setRegion(Region.getRegion(region));
 
 		return amz;
 	}
@@ -64,7 +66,11 @@ public class NebraskaEC2Client {
 	 * in multiple instances.
 	 */
 	public List<Reservation> getReservations() {
-		DescribeInstancesResult describeInstancesResult = ec2.describeInstances();
+		Filter imageFilter = new Filter("image-id").withValues(imageId);
+		Filter stateFilter = new Filter("instance-state-name").withValues("running");
+		DescribeInstancesRequest instancesRequest = new DescribeInstancesRequest().withFilters(imageFilter, stateFilter);
+
+		DescribeInstancesResult describeInstancesResult = ec2.describeInstances(instancesRequest);
 		List<Reservation> reservations = describeInstancesResult.getReservations();
 
 		return reservations;
