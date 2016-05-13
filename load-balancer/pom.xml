@@ -71,8 +71,8 @@
 				<configuration>
 					<mainClass>pt.tecnico.cnv.loadbalancer.App</mainClass>
 					<arguments>
-						<argument>Dumb</argument>
-						<argument>8888</argument>
+						<argument>Load</argument>
+						<argument>80</argument>
 					</arguments>
 				</configuration>
 			</plugin>

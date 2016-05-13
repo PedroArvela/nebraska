@@ -78,9 +78,10 @@ public class LoadScheduler implements Scheduler {
 			linst.averageCPU = average;
 
 			linsts.add(linst);
-
-			this.linsts = linsts;
+			System.out.println("Found instance " + linst.dns + " with load " + linst.averageCPU);
 		}
+
+		this.linsts = linsts;
 	}
 
 	@Override
