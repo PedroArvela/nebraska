@@ -20,11 +20,4 @@
 		<module>metricstorage</module>
 		<module>load-balancer</module>
 	</modules>
-
-	<repositories>
-		<repository>
-			<id>Local AFS</id>
-			<url>https://web.tecnico.ulisboa.pt/~jose.pedro.arvela/maven</url>
-		</repository>
-	</repositories>
 </project>

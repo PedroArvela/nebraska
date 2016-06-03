@@ -1,11 +1,8 @@
 # Project Nebraska
 
-Projecto de CNV
+Project for the class of Cloud Computing and Virtualization.
 
-* [Enunciado](http://grupos.ist.utl.pt/~meic-cnv.daemon/project/Enunciado_projecto_CNV_2015_16.pdf)
-* [Tips and FAQ](https://docs.google.com/document/d/1Di1Eg4VCqRzGxdBUzTgcCMtlQB8kn716PUHNK68uqPA)
-
-## Compilar o projeto
+## Compiling
 
 ```bash
 source setup-java.sh
@@ -15,13 +12,13 @@ mvn -pl instrumentation exec:java -Dexec.args=./web-server/target/classes/pt/tec
 mvn install
 ```
 
-## Correr o web server
+## Running the web server
 
 ```bash
 mvn -pl web-server exec:java
 ```
 
-## Correr o load balancer
+## Running the load balancer
 
 ```bash
 mvn -pl load-balancer exec:java [ -Dexec.args=Scheduler [ PORT ] ]
