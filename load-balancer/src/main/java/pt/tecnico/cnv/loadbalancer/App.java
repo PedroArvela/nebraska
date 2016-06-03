@@ -16,10 +16,10 @@ public class App {
 		}
 
 		if (args[0].equals("RoundRobin")) {
-			NebraskaEC2Client nec2 = NebraskaEC2Client.init(Regions.US_WEST_2, "ami-56a45136");
+			NebraskaEC2Client nec2 = NebraskaEC2Client.init(Regions.US_WEST_2, "");
 			scheduler = new RoundRobinScheduler(nec2);
 		} else if (args[0].equals("Load")) {
-			NebraskaEC2Client nec2 = NebraskaEC2Client.init(Regions.US_WEST_2, "ami-56a45136");
+			NebraskaEC2Client nec2 = NebraskaEC2Client.init(Regions.US_WEST_2, "");
 			scheduler = new LoadScheduler(nec2);
 		} else {
 			scheduler = new DumbScheduler();

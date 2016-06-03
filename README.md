@@ -4,6 +4,8 @@ Project for the class of Cloud Computing and Virtualization.
 
 ## Compiling
 
+The instrumentation code requires BIT to be installed.
+
 ```bash
 source setup-java.sh
 mvn compile
